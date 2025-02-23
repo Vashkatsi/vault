@@ -1,0 +1,17 @@
+# Ignore configuration files
+configs/
+
+# Ignore binaries and build artifacts
+vault
+bin/
+build/
+
+# Vendor directory (if used)
+vendor/
+
+# IDE/editor files
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store

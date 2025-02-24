@@ -2,6 +2,11 @@ services:
   vault:
     container_name: vault
     build: ../../
+    environment:
+      - REPOSITORY_TYPE=postgres
+      - DB_URL=postgres://vault_user:vault_password@postgres:5432/vault_db
+      - ENCRYPTOR_TYPE=aes_gcm
+      - ENCRYPTION_KEY=00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff
     ports:
       - "8080:8080"
     depends_on:
@@ -16,9 +21,9 @@ services:
     container_name: vault_db
     image: postgres:16
     environment:
-      POSTGRES_USER: vault_user
-      POSTGRES_PASSWORD: vault_password
-      POSTGRES_DB: vault_db
+      - POSTGRES_USER=vault_user
+      - POSTGRES_PASSWORD=vault_password
+      - POSTGRES_DB=vault_db
     ports:
       - "5432:5432"
     volumes:

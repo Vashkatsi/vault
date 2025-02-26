@@ -1,11 +1,11 @@
 package api
 
 import (
-	"net/http"
-
-	"github.com/gin-gonic/gin"
 	"github.com/Vashkatsi/vault/internal/application"
+	"github.com/Vashkatsi/vault/internal/config"
 	"github.com/Vashkatsi/vault/internal/init"
+	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 var dataService *application.DataService
@@ -15,10 +15,11 @@ func init() {
 }
 
 func RegisterRoutes(router *gin.Engine) {
+	cfg := config.LoadConfig()
 	router.GET("/health", healthCheck)
 	router.GET("/ready", readinessCheck)
-	router.POST("/store", storeData)
-	router.POST("/retrieve", retrieveData)
+	router.POST(cfg.StoreEndpoint, storeData)
+	router.POST(cfg.RetrieveEndpoint, retrieveData)
 	router.POST("/validate", validateData)
 }
 

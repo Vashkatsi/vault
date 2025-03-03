@@ -10,14 +10,13 @@ import (
 	"log"
 )
 
-func InitializeDependencies() *application.DataService {
-	cfg := config.LoadConfig()
+func InitializeDependencies(cfg config.Config) *application.DataService {
 	repo := initializeRepository(cfg)
 	encryptor := initializeEncryptor(cfg)
 	return application.NewDataService(repo, encryptor)
 }
 
-func initializeRepository(cfg *config.Config) domain.Repository {
+func initializeRepository(cfg config.Config) domain.Repository {
 	if cfg.RepositoryType == "postgres" {
 		if cfg.DBUrl == "" {
 			log.Fatal("DB_URL must be provided for postgres repository")
@@ -31,7 +30,7 @@ func initializeRepository(cfg *config.Config) domain.Repository {
 	return storage.NewInMemoryRepository()
 }
 
-func initializeEncryptor(cfg *config.Config) encryption.Encryptor {
+func initializeEncryptor(cfg config.Config) encryption.Encryptor {
 	if cfg.EncryptorType == "aes_gcm" {
 		if cfg.EncryptionKey == "" {
 			log.Fatal("ENCRYPTION_KEY must be provided for aes_gcm encryptor")

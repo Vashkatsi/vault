@@ -10,12 +10,9 @@ import (
 
 var dataService *application.DataService
 
-func init() {
-	dataService = initdeps.InitializeDependencies()
-}
+func RegisterRoutes(router *gin.Engine, cfg config.Config) {
+	dataService = initdeps.InitializeDependencies(cfg)
 
-func RegisterRoutes(router *gin.Engine) {
-	cfg := config.LoadConfig()
 	router.GET("/health", healthCheck)
 	router.GET("/ready", readinessCheck)
 	router.POST(cfg.StoreEndpoint, storeData)

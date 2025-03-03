@@ -1,12 +1,20 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
+	"github.com/Vashkatsi/vault/internal/config"
 	"github.com/Vashkatsi/vault/internal/interface/api"
+	"github.com/Vashkatsi/vault/internal/observability"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	router := gin.Default()
-	api.RegisterRoutes(router)
-	router.Run(":8080")
+
+	observability.PrometheusMiddleware(router)
+
+	cfg := config.LoadConfig()
+
+	api.RegisterRoutes(router, cfg)
+
+	router.Run(":" + cfg.Port)
 }

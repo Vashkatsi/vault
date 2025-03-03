@@ -9,16 +9,18 @@ type Config struct {
 	EncryptionKey    string
 	StoreEndpoint    string
 	RetrieveEndpoint string
+	Port             string
 }
 
-func LoadConfig() *Config {
-	return &Config{
+func LoadConfig() Config {
+	return Config{
 		RepositoryType:   getEnv("REPOSITORY_TYPE", "in_memory"),
 		DBUrl:            os.Getenv("DB_URL"),
 		EncryptorType:    getEnv("ENCRYPTOR_TYPE", "dummy"),
 		EncryptionKey:    os.Getenv("ENCRYPTION_KEY"),
 		StoreEndpoint:    getEnv("STORE_ENDPOINT", "/store"),
 		RetrieveEndpoint: getEnv("RETRIEVE_ENDPOINT", "/retrieve"),
+		Port:             getEnv("PORT", "8080"),
 	}
 }
 
